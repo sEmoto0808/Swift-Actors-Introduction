@@ -20,4 +20,6 @@ await MainActor.run { [weak self] in
 
 > When you access a property or method of an actor, you use await to mark the potential suspension point  
 
-> the actor allows only one task at a time to access its mutable state, if code from another task is already interacting with the logger, this code suspends while it waits to access the property.
+> the actor allows only one task at a time to access its mutable state, if code from another task is already interacting with the logger, this code suspends while it waits to access the property.  
+
+> In contrast, code that’s part of the actor doesn’t write await when accessing the actor’s properties.  
