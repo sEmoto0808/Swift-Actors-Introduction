@@ -11,7 +11,7 @@ class User {
     }
 }
 
-class UserStorage {
+actor UserStorage {
 
     private var store = [String: User]()
 
@@ -24,9 +24,14 @@ class UserStorage {
     }
 }
 
-let user = User(id: "123", name: "afraz")
-
 let storage = UserStorage()
-storage.save(user)
-let getUser = storage.get("123")
-print(String(describing: getUser))
+// Taskで囲ってawaitをつける
+Task {
+    let user = User(id: "123", name: "afraz")
+
+    await storage.save(user)
+
+    let getUser = await storage.get("123")
+    
+    print(String(describing: getUser))
+}
