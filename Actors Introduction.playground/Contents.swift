@@ -13,12 +13,17 @@ class User {
 class UserStorage {
 
     private var store = [String: User]()
+    private let queue = DispatchQueue(label: "user_save_queue")
 
     func get(_ id: String) -> User? {
-        store[id]
+        queue.sync {
+            self.store[id]
+        }
     }
 
     func save(_ user: User) {
-        store[user.id] = user
+        queue.sync {
+            self.store[user.id] = user
+        }
     }
 }
