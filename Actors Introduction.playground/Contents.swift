@@ -2,10 +2,11 @@ import UIKit
 
 class User {
 
-    let id = UUID().uuidString
+    let id: String
     let name: String
 
-    init(name: String) {
+    init(id: String, name: String) {
+        self.id = id
         self.name = name
     }
 }
@@ -13,17 +14,19 @@ class User {
 class UserStorage {
 
     private var store = [String: User]()
-    private let queue = DispatchQueue(label: "user_save_queue")
 
     func get(_ id: String) -> User? {
-        queue.sync {
-            self.store[id]
-        }
+        store[id]
     }
 
     func save(_ user: User) {
-        queue.sync {
-            self.store[user.id] = user
-        }
+        store[user.id] = user
     }
 }
+
+let user = User(id: "123", name: "afraz")
+
+let storage = UserStorage()
+storage.save(user)
+let getUser = storage.get("123")
+print(String(describing: getUser))
